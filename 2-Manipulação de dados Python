@@ -1,0 +1,140 @@
+# Teste-Engenheiro-de-Dados
+
+import mysql.connector
+
+con = mysql.connector.connect(host='40b8f30251.nxcli.io',
+                                     database='a4f2b49a_sample_database',
+                                     user='a4f2b49a_padawan',
+                                     password= 'KaratFlanksUgliedSpinal')
+
+if con.is_connected():
+ db_info = con.get_server_info()
+ print("conectado ao servidor mysql versão",db_info)
+ cursor = con.cursor()
+ cursor.execute("select database();")
+ linha = cursor.fetchone()
+ print("conectado ao banco de dados",linha)
+
+if con.is_connected():
+ cursor.close()
+ con.close()
+ print("Conexão ao Mysql foi encerrada")
+
+
+
+import mysql.connector
+from mysql.connector import Error
+
+
+try:
+    con = mysql.connector.connect(host='40b8f30251.nxcli.io',
+                                     database='a4f2b49a_sample_database',
+                                     user='a4f2b49a_padawan',
+                                     password= 'KaratFlanksUgliedSpinal')
+
+    consulta_sql = "select * from raw_data"
+    cursor = con.cursor()
+    cursor.execute(consulta_sql)
+    linha = cursor.fetchall()
+    print("numero total de registro: ", cursor.rowcount)
+    
+    
+    
+    #print("\mostrando os dados da tabela!")
+    #for linha in linhas:
+    #    print(linha)
+        
+except Error as e:
+    print("Erro ao acessar tabela no mysql",e)
+finally:
+    #if (con.is_connected()):
+    #cursor.close()
+    #con.close()
+    #print("Conexão ao Mysql foi encerrada")
+    
+
+query = "SELECT * FROM raw_data"
+cursor = con.cursor()
+cursor.execute(query)
+linha = cursor.fetchall()
+print("numero total de registro: ", cursor.rowcount)
+#print("numero total de registro: ", cursor.query columns)
+
+
+column = "SELECT * FROM raw_data limit 10"
+cursor = con.cursor()
+cursor.execute(column)
+resultados = cursor.fetchall()
+print(resultados)
+
+
+cursor = con.cursor()
+cursor.execute("SHOW DATABASES LIKE'a4f2b49a_sample_database'")
+resultado = cursor.fetchone()
+
+if resultado:
+    print(" o banco de dados já existe.")
+else:
+    print(" o banco de dados ainda já existe.")
+    cursor.execute("CREATE DATABASE a4f2b49a_sample_database")
+    
+    
+    
+#BD_LoCAL
+import mysql.connector
+
+con = mysql.connector.connect(host='localhost',
+                                     database='mes_db',
+                                     user='root',
+                                     password= 'Jeremy@23@!$#')
+
+if con.is_connected():
+ db_info = con.get_server_info()
+ print("conectado ao servidor mysql versão",db_info)
+ cursor = con.cursor()
+ cursor.execute("select database();")
+ linha = cursor.fetchone()
+ print("conectado ao banco de dados",linha)
+
+#if con.is_connected():
+# cursor.close()
+ #con.close()
+# print("Conexão ao Mysql foi encerrada")
+
+
+
+
+import mysql.connector
+from mysql.connector import Error
+
+
+try:
+    con = mysql.connector.connect(host='localhost',
+                                     database='mes_db',
+                                     user='root',
+                                     password= 'Jeremy@23@!$#')
+
+    new_tbl = """CREATE TABLE nva_tbl (mes VARCHAR(50) NOT NULL,
+                                        rake INT(11) NOT NULL,
+                                        jogadores INT(11) NOT NULL,
+                                        rake_cash_game DOUBLE NOT NULL,
+                                        rake_torneio DOUBLE NOT NULL,
+                                        jogadores_cash_game INT(11) NOT NULL,
+                                        jogadores_torneio INT(11))"""
+
+    cursor = con.cursor()
+    cursor.execute(new_tbl)
+    print("tabela nva_tbl criada com sucesso!")
+
+except mysql.connector.Error as erro:
+    print("falha ao criar nva_tbl no mysql : {}".format(erro))
+finally:
+    if con.is_connected():
+     cursor.close()
+     con.close()
+     print("Conexão ao Mysql foi encerrada")
+    
+    
+    
+
+
