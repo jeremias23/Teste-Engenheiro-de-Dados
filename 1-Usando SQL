@@ -1,0 +1,70 @@
+# Teste-Engenheiro-de-Dados
+
+!pip install pyspark
+
+from pyspark.sql import SparkSession
+from pyspark.sql import functions as f
+
+spark = SparkSession.builder.master('local[*]').appName("Teste Eng").getOrCreate()
+
+spark
+
+dados_resultado = spark.read.csv('resultado.csv', sep=',', header=True, inferSchema=True)
+
+dados_resultado.show()
+
+dados_resultado.printSchema()
+
+dados_clientes = spark.read.csv('clientes.csv', sep=',', header=True, inferSchema=True)
+
+dados_clientes.show()
+
+dados_clientes.printSchema()
+
+dados_clientes.dropna(how="any").show()
+
+dados_resultado.createOrReplaceTempView("resultado")
+
+dados_clientes.createOrReplaceTempView("clientesView")
+
+spark.sql("SELECT * FROM resultado").show()
+
+spark.sql("SELECT * FROM clientesView").show()
+
+freq = spark\
+    .sql("""
+        SELECT month(data_acesso) AS month, COUNT(rake) AS total_rake
+            FROM resultado 
+            WHERE month(data_acesso) >= 1
+            GROUP BY month
+            ORDER BY month
+    """)
+    
+freq\
+    .show()
+
+
+df = spark.sql("select * from resultado re join clientesView cl on(re.clientes_id = cl.id)")
+df.show()
+
+from pyspark.sql.functions import collect_set,sum,avg,max,countDistinct,count
+
+
+df.groupBy("sexo") \
+    .agg(count("winning").alias("count_winning")
+     ) \
+    .show(truncate=False)
+    
+
+spark\
+    .sql("""
+        SELECT *
+            FROM resultado
+            WHERE winning > 0
+    """)\
+    .show()
+
+
+
+
+
